@@ -1,1 +1,2 @@
 # Solidity-Defects-and-Bugs
+This repository contains a smart contract test suite which targets the defects descriebed in [Review of Automated Vulnerability Analysis of Smart Contracts on Ethereum](https://www.frontiersin.org/articles/10.3389/fbloc.2022.814977/full), Table 6.
