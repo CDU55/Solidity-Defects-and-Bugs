@@ -1,0 +1,87 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
+contract TransactionOrderDependencyFixed{
+
+    enum Options{
+        Dove,
+        Hawk,
+        Default
+    }
+
+    enum States{
+        GameStarted,
+        FirstCommited,
+        SecondCommited
+    }
+
+    constructor(uint _fee)
+    {
+        require(_fee%2==0,'You must choose and even fee');
+        entranceFee=_fee;
+    }
+
+    uint entranceFee;
+    States public currentState=States.GameStarted;
+    mapping(address=>Options) answers;
+    address[2] players;
+    uint playerCount;
+
+    function commit(Options option) external payable
+    {
+        require(msg.value>=entranceFee,'You must pay the register fee');
+        if(currentState==States.GameStarted)
+        {
+            players[0]=msg.sender;
+            answers[msg.sender]=option;
+            currentState=States.FirstCommited;
+            playerCount=playerCount+1;
+        }
+        else if(currentState==States.FirstCommited)
+        {
+            players[1]=msg.sender;
+            answers[msg.sender]=option;
+            currentState=States.SecondCommited;
+            playerCount=playerCount+1;
+        }
+        else
+        {
+            revert('Players already joined');
+        }
+    }
+
+    function checkWinner() external
+    {
+        require(currentState==States.SecondCommited,'You cannot pick a winner at this state');
+        address player1=players[0];
+        address player2=players[1];
+        if(answers[player1]==Options.Dove)
+        {
+            if(answers[player2]==Options.Dove)
+            {
+                payable(player1).transfer(entranceFee+1 ether);
+                payable(player2).transfer(entranceFee+1 ether);
+            }
+            else if(answers[player2]==Options.Hawk)
+            {
+                payable(player1).transfer(entranceFee/2);
+                payable(player2).transfer(entranceFee+entranceFee/2);
+            }
+        }
+        else if(answers[player1]==Options.Hawk)
+        {
+            if(answers[player2]==Options.Dove)
+            {
+                payable(player1).transfer(entranceFee+entranceFee/2);
+                payable(player2).transfer(entranceFee/2);
+            }
+        }
+        
+        resetState();
+    }
+
+    function resetState() private{
+        currentState=States.GameStarted;
+        playerCount=0;
+    }
+}
