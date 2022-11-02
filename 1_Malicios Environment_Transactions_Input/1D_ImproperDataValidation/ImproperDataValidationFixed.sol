@@ -21,6 +21,7 @@ contract ImproperDataValidationFixed {
 
     function participate(uint validateMe) payable external
     {
+        //Also perform inline validation
         require(isValid(validateMe),'Invalid option');
         require(msg.value==fee,'Please attach the correct fee');
         require(participants[msg.sender]==0,'You already participated');

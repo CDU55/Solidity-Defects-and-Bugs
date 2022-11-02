@@ -7,7 +7,7 @@ interface LibraryInterface
     function getInterest(uint amount,uint startLoan,uint endLoan) external view returns(uint);
 }
 
-contract Bank{
+contract UnpredictableStateDynamicLibrariesFixed{
 
     struct Debt{
         uint owed;

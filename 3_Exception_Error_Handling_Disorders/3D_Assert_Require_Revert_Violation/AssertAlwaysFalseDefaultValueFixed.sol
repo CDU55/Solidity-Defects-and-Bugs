@@ -17,6 +17,6 @@ contract AssertAlwaysFalse{
     {
         require(limit>currentCount,'The limit has been reached');
         currentCount+=1;
-        participants[currentCount]=msg.sender;
+        participants[currentCount]=msg.sender;      
     }
 }
