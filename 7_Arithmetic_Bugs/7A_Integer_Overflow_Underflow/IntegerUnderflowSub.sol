@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.13;
+pragma solidity ^0.8.7;
 
 //The "payDebt" function could produce unwanted effects if the indebted pays more than what he owes due to Integer Underflow
 contract IntegerUnderflowSub{

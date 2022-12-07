@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.13;
+pragma solidity ^0.8.7;
 
-//Fix: Perform and overflow check before calculating the sum
+//The "calculateTotalExpense" function could return an incorrect value due to a possible overflow of the "totalExpense" variable
 contract IntegerOverflowAdd {
     address private owner;
     mapping (uint=>Expense) private expenses;
     uint private _expensesCount;
-    uint constant maxInt=2**256-1;
 
     struct Expense{
         uint Value;
@@ -29,12 +28,11 @@ contract IntegerOverflowAdd {
         uint totalExpense;
         for(uint index=0;index<_expensesCount;index++)
         {
-            require(totalExpense + expenses[index].Value < maxInt,'Integer Overflow on operation');
             totalExpense+=expenses[index].Value;
         }
         return totalExpense;
     }
-    
+
     constructor()
     {
         owner=msg.sender;

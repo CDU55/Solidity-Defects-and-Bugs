@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.13;
+pragma solidity ^0.8.7;
 
 //The "calculateFactorial" function could return an incorrect value due to a possible overflow of the "factorial" variable if the "number" parameter has a large value
 contract IntegerOverflowMul {

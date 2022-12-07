@@ -1,21 +1,16 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.13;
+pragma solidity ^0.8.7;
 
-//Fix: Use a dedicated function that calculates the sum in a safe manner
-contract IntegerOverflowAddFixed {
+//Fix: Perform and overflow check before calculating the sum
+contract IntegerOverflowAdd {
     address private owner;
     mapping (uint=>Expense) private expenses;
     uint private _expensesCount;
+    uint constant maxInt=2**256-1;
 
     struct Expense{
         uint Value;
         string Description;
-    }
-
-    function add(uint a, uint b) internal pure returns (uint) {
-        uint maxInt = 2**256 - 1;
-        require(a + b < maxInt,'Integer Overflow on operation');
-        return a + b;
     }
 
     modifier onlyOwner() {
@@ -34,7 +29,8 @@ contract IntegerOverflowAddFixed {
         uint totalExpense;
         for(uint index=0;index<_expensesCount;index++)
         {
-            totalExpense=add(totalExpense,expenses[index].Value);
+            require(totalExpense + expenses[index].Value < maxInt,'Integer Overflow on operation');
+            totalExpense+=expenses[index].Value;
         }
         return totalExpense;
     }
