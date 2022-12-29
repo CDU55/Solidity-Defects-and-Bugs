@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.13;
+pragma solidity ^0.8.7;
 
-
-//The operator "=+" is used instead of "+="
+//Use "+=" instead of "=+'
 contract AverageSalary{
     uint private result;
     uint private respondentsCount;
@@ -12,7 +11,7 @@ contract AverageSalary{
 
     function registerSalary(uint salary) external {
         require(!surveyOver,'Ther survey has ended');
-        totalSalary=+salary;
+        totalSalary+=salary;
         respondentsCount+=1;
     }
 
