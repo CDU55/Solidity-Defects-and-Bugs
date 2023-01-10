@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //Fix: remove the redundant assignment
 contract DeadCodeUselessAssignmentFixed {

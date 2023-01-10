@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
+//Fix: Implement a commit mechanism, the user commits his encrypted answer. 
+//After all players commited their answers, they have must reveal them before a deadline is reached.
 contract TransactionOrderDependencyFixed{
     struct CommitedAnswer{
         bytes32 commit;
@@ -25,7 +27,7 @@ contract TransactionOrderDependencyFixed{
 
     constructor(uint _fee)
     {
-        require(_fee%2==0,'You must choose and even fee');
+        require(_fee%2==0,"You must choose and even fee");
         entranceFee=_fee;
     }
 
@@ -37,7 +39,7 @@ contract TransactionOrderDependencyFixed{
 
     function commit(bytes32 solution) external payable
     {
-        require(msg.value>=entranceFee,'You must pay the register fee');
+        require(msg.value>=entranceFee,"You must pay the register fee");
         if(currentState==States.GameStarted)
         {
             players[0]=msg.sender;
@@ -54,7 +56,7 @@ contract TransactionOrderDependencyFixed{
         }
         else
         {
-            revert('Players already joined');
+            revert("Players already joined");
         }
     }
 
@@ -62,7 +64,7 @@ contract TransactionOrderDependencyFixed{
     {
         if(currentState==States.SecondCommited && players[0]==msg.sender)
         {
-            require(bytes32(abi.encodePacked(msg.sender,salt,option))==answers[msg.sender].commit,'The provided values do not match the commit hash');
+            require(bytes32(abi.encodePacked(msg.sender,salt,option))==answers[msg.sender].commit,"The provided values do not match the commit hash");
             answers[msg.sender].option=option;
             answers[players[1]].revealDeadline=block.timestamp+1 days;
             currentState=States.FirstRevealed;
@@ -71,7 +73,7 @@ contract TransactionOrderDependencyFixed{
         {
             if(block.timestamp>answers[msg.sender].revealDeadline)
             {
-                require(bytes32(abi.encodePacked(msg.sender,salt,option))==answers[msg.sender].commit,'The provided values do not match the commit hash');
+                require(bytes32(abi.encodePacked(msg.sender,salt,option))==answers[msg.sender].commit,"The provided values do not match the commit hash");
                 answers[msg.sender].option=option;
                 currentState=States.SecondRevealed;
             }
@@ -82,13 +84,13 @@ contract TransactionOrderDependencyFixed{
         }
         else
         {
-            revert('You cannot reveal your option at this point');
+            revert("You cannot reveal your option at this point");
         }
     }
 
     function checkWinner() external
     {
-        require(currentState==States.SecondRevealed,'You cannot pick a winner at this state');
+        require(currentState==States.SecondRevealed,"You cannot pick a winner at this state");
         address player1=players[0];
         address player2=players[1];
         if(answers[player1].option==Options.Dove)

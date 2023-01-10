@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //This contract contains a loop that will reach an out of bound index in the last iteration because it uses "<=" and the array length for comparison.
 contract OutOfBoundsArrayLoop {

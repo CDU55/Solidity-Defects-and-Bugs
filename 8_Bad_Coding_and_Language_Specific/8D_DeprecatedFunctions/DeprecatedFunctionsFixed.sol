@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //Fix: Use an alternative to the deprecated function
 contract DeprecatedFunctionsFixed {
-    mapping(address => uint) private applicants;
+    mapping(address => uint) private _applicants;
     uint public deadlineTimestamp;
     constructor(uint _deadlineTimestamp)
     {
@@ -11,7 +11,7 @@ contract DeprecatedFunctionsFixed {
     }
 
     function receiveApplication() external{
-        require(block.timestamp<deadlineTimestamp,'The deadline for applications has been reached');
-        applicants[msg.sender]=1;
+        require(block.timestamp<deadlineTimestamp,"The deadline for applications has been reached");
+        _applicants[msg.sender]=1;
     }
 }

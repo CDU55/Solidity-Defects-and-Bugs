@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //This contract performs a division where the divisor is always zero.
 contract DivideByZeroMinimal {

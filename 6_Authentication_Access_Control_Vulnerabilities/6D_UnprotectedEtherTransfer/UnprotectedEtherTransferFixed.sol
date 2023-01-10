@@ -1,30 +1,30 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //Fix: Check the value of msg.send in a "require" statement
 contract UnprotectedEtherTransferFixed {
-    mapping(address => uint) private employees;
+    
+    mapping(address => uint) private _employees;
+    address private _owner;
 
-    address private owner;
-
-      modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner of the contract can access this");
+    modifier onlyOwner() {
+        require(msg.sender == _owner, "Only the owner of the contract can access this");
         _;
     }
 
-      constructor()
+    constructor()
     {
-        owner=msg.sender;
+        _owner=msg.sender;
     }
 
     function sendSalary(address employeeAddress) payable external onlyOwner{
-        employees[employeeAddress]=msg.value;
+        _employees[employeeAddress]=msg.value;
     }
 
     function getSalary() external{
-        require(employees[msg.sender]>0,'You cannot receive your salary at this moment');
-        employees[msg.sender]=0;
-        payable(msg.sender).transfer(employees[msg.sender]);
+        require(_employees[msg.sender]>0,"You cannot receive your salary at this moment");
+        _employees[msg.sender]=0;
+        payable(msg.sender).transfer(_employees[msg.sender]);
     }
 
     function cancelContract() external onlyOwner {

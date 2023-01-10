@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
+//This contract contains a game where a player chooses an option. 
+//A miner can see the option that a player chose and "steal" the answer by manipulating the order of transactions and putting his call first.
 contract TransactionOrderDependencyFixed{
 
     enum Options{
@@ -15,21 +17,23 @@ contract TransactionOrderDependencyFixed{
         SecondCommited
     }
 
-    constructor(uint _fee)
-    {
-        require(_fee%2==0,'You must choose and even fee');
-        entranceFee=_fee;
-    }
-
     uint entranceFee;
     States public currentState=States.GameStarted;
     mapping(address=>Options) answers;
     address[2] players;
     uint playerCount;
 
+    constructor(uint _fee)
+    {
+        require(_fee%2==0,"You must choose and even fee");
+        entranceFee=_fee;
+    }
+
+
+
     function commit(Options option) external payable
     {
-        require(msg.value>=entranceFee,'You must pay the register fee');
+        require(msg.value>=entranceFee,"You must pay the register fee");
         if(currentState==States.GameStarted)
         {
             players[0]=msg.sender;
@@ -46,13 +50,13 @@ contract TransactionOrderDependencyFixed{
         }
         else
         {
-            revert('Players already joined');
+            revert("Players already joined");
         }
     }
 
     function checkWinner() external
     {
-        require(currentState==States.SecondCommited,'You cannot pick a winner at this state');
+        require(currentState==States.SecondCommited,"You cannot pick a winner at this state");
         address player1=players[0];
         address player2=players[1];
         if(answers[player1]==Options.Dove)

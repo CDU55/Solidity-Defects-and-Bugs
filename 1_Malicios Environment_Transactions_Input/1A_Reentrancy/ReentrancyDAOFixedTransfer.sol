@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //Fix: Use "transfer" instead of "call" to prevent reentrancy. The imposed gas limit of the instruction will not allow a reentrancy attack.
 contract ReentrancyDAOFixedTransfer {
-    mapping(address => uint) private balance;
+    
+    mapping(address => uint) private _balance;
 
     function deposit() external payable {
-        balance[msg.sender] = msg.value;
+        _balance[msg.sender] = msg.value;
     }
 
-    //Obs: slither reentracy false positive
-     function withdraw() external {
-        require(balance[msg.sender]!=0,'No balance found');
-        uint toSend=balance[msg.sender];
+    function withdraw() external {
+        require(_balance[msg.sender]!=0,"No balance found");
+        uint toSend=_balance[msg.sender];
         payable(msg.sender).transfer(toSend);
-        balance[msg.sender]=0;
+        _balance[msg.sender]=0;
     }
 }

@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
+//Fix: The owener of the contract is in charge of maintaining a list of accepted workers. Only the workers from that list can be used.
 contract VulenerableDelegeateCALLFixed{
 
     mapping(address=>int) private acceptedWorkers ;
 
-     address private owner;
+    address private owner;
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner of the contract can access this");
@@ -28,7 +29,7 @@ contract VulenerableDelegeateCALLFixed{
 
     function forwardToWorker(address workerAddress,bytes calldata callData) public
     {
-        require(acceptedWorkers[workerAddress]==1,'The provided address is not featured on the workers whitelist');
+        require(acceptedWorkers[workerAddress]==1,"The provided address is not featured on the workers whitelist");
         executePostCallLogic();
         (bool success,)=workerAddress.delegatecall(callData);
         require(success);

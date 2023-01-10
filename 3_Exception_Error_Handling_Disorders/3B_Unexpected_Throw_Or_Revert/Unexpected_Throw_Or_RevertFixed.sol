@@ -1,30 +1,31 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
+//Fix: Implement a "pull" rather than "push" payment via a cashback method.
 contract UnexpectedThrowOrRevertFixed{
 
-    address private highestBidder;
-    uint private highestBid;
+    address private _highestBidder;
+    uint private _highestBid;
 
     mapping (address=>uint) owedFormerHighestBidders;
 
     function Bid() external payable
     {
-        if(msg.value>highestBid)
+        if(msg.value>_highestBid)
         {
-            owedFormerHighestBidders[highestBidder]+=highestBid;
-            highestBidder=msg.sender;
-            highestBid=msg.value;
+            owedFormerHighestBidders[_highestBidder]+=_highestBid;
+            _highestBidder=msg.sender;
+            _highestBid=msg.value;
         }
         else
         {
-            revert('The big was lower than the current highest bid');
+            revert("The big was lower than the current highest bid");
         }
     }
 
     function Cashback() external
     {
-        require(owedFormerHighestBidders[msg.sender]>0,'You have nothing to collect');
+        require(owedFormerHighestBidders[msg.sender]>0,"You have nothing to collect");
         payable(msg.sender).transfer(owedFormerHighestBidders[msg.sender]);
     }
 }

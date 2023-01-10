@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //Fix: Use the latest compiler version, or atleast the latest major version
 contract OutdatedCompilerVersionFixed {
+    
     address private owner;
-    mapping (uint=>Expense) private expenses;
+    mapping (uint=>Expense) private _expenses;
     uint private _expensesCount;
 
    struct Expense{
@@ -22,9 +23,9 @@ contract OutdatedCompilerVersionFixed {
         owner=msg.sender;
     }
 
-  function registerExpense(uint value,uint expenseId) external onlyOwner
+    function registerExpense(uint value,uint expenseId) external onlyOwner
     {
-        expenses[_expensesCount]=Expense(value,expenseId);
+        _expenses[_expensesCount]=Expense(value,expenseId);
         _expensesCount++;
     }
 
@@ -33,7 +34,7 @@ contract OutdatedCompilerVersionFixed {
         uint totalExpense;
         for(uint index=0;index<_expensesCount;index++)
         {
-            totalExpense+=expenses[index].Value;
+            totalExpense+=_expenses[index].Value;
         }
         return totalExpense;
     }

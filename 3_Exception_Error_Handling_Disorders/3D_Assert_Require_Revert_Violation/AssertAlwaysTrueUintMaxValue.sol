@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //This contract contains a tautology in its "require", an unsigned integer will always be lower than the maximum value that the bit length can hold
 contract AssertAlwaysTrue{

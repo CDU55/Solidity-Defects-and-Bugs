@@ -1,23 +1,23 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //This contract displays an example of block info dependency. I uses the block number to generate a pseudo-random number. 
 //Since the value that the "random" will have can be determined before, this leaves room for an attacker to exploit the knowledge that he has.
 contract BlockInfoDependency {
-    uint private contendersCount;
-    mapping(uint=>address) private contenders;
 
-    address owner;
+    uint private _contendersCount;
+    mapping(uint=>address) private _contenders;
+    address private _owner;
 
-      modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner of the contract can access this");
+    modifier onlyOwner() {
+        require(msg.sender == _owner, "Only the owner of the contract can access this");
         _;
     }
 
       constructor()
     {
-        owner=msg.sender;
-        contendersCount=0;
+        _owner=msg.sender;
+        _contendersCount=0;
     }
 
     receive() external payable {
@@ -25,16 +25,16 @@ contract BlockInfoDependency {
     }
 
     function register(address contender) payable external{
-        require(msg.value>=1 ether && msg.value<2 ether,'Invalid entrance tax');
-        contenders[contendersCount]=contender;
-        contendersCount=contendersCount+1;
+        require(msg.value>=1 ether && msg.value<2 ether,"Invalid entrance tax");
+        _contenders[_contendersCount]=contender;
+        _contendersCount=_contendersCount+1;
     }
 
     function chooseWinner() external onlyOwner {
-        require(contendersCount>10,'Not enough contenders registered');
-        uint winnerIndex=block.number % contendersCount;
-        contendersCount=0;
-        payable(contenders[winnerIndex]).transfer(address(this).balance - 1 ether);
-        payable(owner).transfer(1 ether);
+        require(_contendersCount>10,"Not enough contenders registered");
+        uint winnerIndex=block.number % _contendersCount;
+        _contendersCount=0;
+        payable(_contenders[winnerIndex]).transfer(address(this).balance - 1 ether);
+        payable(_owner).transfer(1 ether);
     }
 }

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
+//Since these two contracts can call each other infinetly, the callstack depth limit might be reached. 
 contract Ping{
     address private _pong;
     constructor(address pong)
@@ -10,7 +11,7 @@ contract Ping{
 
     receive() external payable {
         (bool success,) = payable(_pong).call{value: msg.value}("");
-        require(success,'Ping pong failed');
+        require(success,"Ping pong failed");
     }
 }
 
@@ -23,6 +24,6 @@ contract Pong{
 
     receive() external payable {
         (bool success,) = payable(_ping).call{value: msg.value}("");
-        require(success,'Ping pong failed');
+        require(success,"Ping pong failed");
     }
 }

@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //This contract uses the transaction origin to determine if the caller is the owner of the contract.
 contract TransactionStateDependency {
 
-    address owner;
+    address _owner;
 
     modifier onlyOwner() {
-        require(tx.origin == owner, "Only the owner of the contract can access this");
+        require(tx.origin == _owner, "Only the owner of the contract can access this");
         _;
     }
 
     constructor()
     {
-        owner=msg.sender;
+        _owner=msg.sender;
     }
 
     receive() external payable {
@@ -21,6 +21,6 @@ contract TransactionStateDependency {
     }
 
     function transferBalance() onlyOwner external{
-        payable(owner).transfer(address(this).balance);
+        payable(_owner).transfer(address(this).balance);
     }
 }

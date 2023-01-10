@@ -1,20 +1,21 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //This contract contains a divison operation where the divisor is not zero-checked.
 //If there are no registered benefactors, the method will fail.
 contract PossibleDivisionByZero {
+    
     uint public benefactorsCount;
-    mapping(uint=>address payable) private benefactors;
+    mapping(uint=>address payable) private _benefactors;
 
     address owner;
 
-      modifier onlyOwner() {
+    modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner of the contract can access this");
         _;
     }
 
-      constructor()
+    constructor()
     {
         owner=msg.sender;
         benefactorsCount=0;
@@ -26,14 +27,14 @@ contract PossibleDivisionByZero {
 
     function registerBenefactor(address payable benefactor) external{
         benefactorsCount=benefactorsCount+1;
-        benefactors[benefactorsCount]=benefactor;
+        _benefactors[benefactorsCount]=benefactor;
     }
 
     function distributeToBenefactors() external onlyOwner {
         uint ammountPerBenefactor=address(this).balance/benefactorsCount;
         for(uint index=1;index<=benefactorsCount;index++)
         {
-            benefactors[index].transfer(ammountPerBenefactor);
+            _benefactors[index].transfer(ammountPerBenefactor);
         }
 
     }

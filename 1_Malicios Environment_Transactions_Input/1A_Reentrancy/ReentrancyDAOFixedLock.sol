@@ -1,25 +1,25 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //Fix: Use a lock mechanism to prevent reentrancy
 //Using the lock pattern to try and trick the analysis tools
 contract ReentrancyDAOFixedLock {
-    mapping(address => uint) private balance;
-    bool internal lockedWithdraw;
 
- function deposit() external payable {
-        balance[msg.sender] = msg.value;
+    mapping(address => uint) private _balance;
+    bool private _lockedWithdraw;
+
+    function deposit() external payable {
+        _balance[msg.sender] = msg.value;
     }
 
-    //Obs: slither reentracy false positive
-     function withdraw() external {
-        require(balance[msg.sender]!=0,'No balance found');
-        require(!lockedWithdraw,'A withdraw operation is already in progress, please wait');
-        lockedWithdraw=true;
-        uint toSend=balance[msg.sender];
+    function withdraw() external {
+        require(_balance[msg.sender]!=0,"No balance found");
+        require(!_lockedWithdraw,"A withdraw operation is already in progress, please wait");
+        _lockedWithdraw=true;
+        uint toSend=_balance[msg.sender];
         (bool sent,) = payable(msg.sender).call{value: toSend}("");
         require(sent, "Failed to send Ether");
-        balance[msg.sender]=0;
-        lockedWithdraw=false;
+        _balance[msg.sender]=0;
+        _lockedWithdraw=false;
     }
 }

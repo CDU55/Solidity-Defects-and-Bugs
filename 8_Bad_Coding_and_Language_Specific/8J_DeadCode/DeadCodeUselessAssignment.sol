@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
+//The variable "total" is assigned twice.
 contract DeadCodeUselessAssignment {
 
     uint constant interestRate = 10;

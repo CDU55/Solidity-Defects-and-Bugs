@@ -1,20 +1,21 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //Fix: Check that the benefactors count is not zero
 contract PossibleDivisionByZeroFixed {
+   
     uint public benefactorsCount;
-    mapping(uint=>address payable) private benefactors;
-    mapping (address=>bool) private rewardCollected;
+    mapping(uint=>address payable) private _benefactors;
+    mapping (address=>bool) private _rewardCollected;
 
     address owner;
 
-      modifier onlyOwner() {
+    modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner of the contract can access this");
         _;
     }
 
-      constructor()
+    constructor()
     {
         owner=msg.sender;
         benefactorsCount=0;
@@ -26,7 +27,7 @@ contract PossibleDivisionByZeroFixed {
 
     function registerBenefactor(address payable benefactor) external{
         benefactorsCount=benefactorsCount+1;
-        benefactors[benefactorsCount]=benefactor;
+        _benefactors[benefactorsCount]=benefactor;
     }
 
     function distributeToBenefactors() external onlyOwner {
@@ -34,14 +35,14 @@ contract PossibleDivisionByZeroFixed {
         uint ammountPerBenefactor=address(this).balance/benefactorsCount;
          for(uint index=1;index<=benefactorsCount;index++)
         {
-            if(rewardCollected[benefactors[index]])
+            if(_rewardCollected[_benefactors[index]])
             {
                 continue;
             }
             
-            if(benefactors[index].send(ammountPerBenefactor))
+            if(_benefactors[index].send(ammountPerBenefactor))
             {
-                rewardCollected[benefactors[index]]=true;
+                _rewardCollected[_benefactors[index]]=true;
             }
         }
     }

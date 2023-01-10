@@ -1,22 +1,24 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
+//Once a higher bid is submitted, the previous bid is returned to the corresponding bidder.
+//However, if the previous bidder is a contract with a complex callback, the "send" operation will never succed. Thus, his bid will never be replaced.
 contract UnexpectedThrowOrRevert{
 
-    address private highestBidder;
-    uint private highestBid;
+    address private _highestBidder;
+    uint private _highestBid;
 
 
     function Bid() external payable{
-        if(msg.value>highestBid)
+        if(msg.value>_highestBid)
         {
-            require(payable(highestBidder).send(highestBid));
-            highestBidder=msg.sender;
-            highestBid=msg.value;
+            require(payable(_highestBidder).send(_highestBid));
+            _highestBidder=msg.sender;
+            _highestBid=msg.value;
         }
         else
         {
-            revert('The big was lower than the current highest bid');
+            revert("The big was lower than the current highest bid");
         }
     }
 }

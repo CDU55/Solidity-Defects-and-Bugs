@@ -1,22 +1,24 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
+//The "transfer" method might receive less bytes than expected and Solidity will pad the missing space with zeros.
 contract ShortAddress {
-    mapping(address => uint) private balance;
+    
+    mapping(address => uint) private _balance;
 
     function deposit() external payable {
-        balance[msg.sender] = msg.value;
+        _balance[msg.sender] = msg.value;
     }
 
      function withdraw() external {
-        require(balance[msg.sender]!=0,'No balance found');
-        uint toSend=balance[msg.sender];
+        require(_balance[msg.sender]!=0,"No balance found");
+        uint toSend=_balance[msg.sender];
         payable(msg.sender).transfer(toSend);
-        balance[msg.sender]=0;
+        _balance[msg.sender]=0;
     }
 
     function transfer(address to, uint256 value) external {
-        require(balance[msg.sender]>=value,'Your balance is smaller than the transfer value');
+        require(_balance[msg.sender]>=value,"Your balance is smaller than the transfer value");
         payable(to).transfer(value);
     }   
 }

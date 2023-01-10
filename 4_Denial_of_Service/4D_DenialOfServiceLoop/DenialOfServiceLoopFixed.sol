@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 //Fix: Use send instead of transfer and check the value.
 contract DenialOfServiceLoopFixed {
     uint public benefactorsCount;

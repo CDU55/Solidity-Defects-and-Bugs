@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
+//Fix: Check the number of current calls.
 contract Ping{
     address private _pong;
     uint private _callLimit;
@@ -13,9 +14,9 @@ contract Ping{
 
     receive() external payable {
         _currentCall+=1;
-        require(_currentCall<=_callLimit,'Call limit reached');
+        require(_currentCall<=_callLimit,"Call limit reached");
         (bool success,) = payable(_pong).call{value: msg.value}("");
-        require(success,'Ping pong failed');
+        require(success,"Ping pong failed");
         _currentCall=0;
     }
 }
@@ -33,9 +34,9 @@ contract Pong{
 
     receive() external payable {
         _currentCall+=1;
-        require(_currentCall<=_callLimit,'Call limit reached');
+        require(_currentCall<=_callLimit,"Call limit reached");
         (bool success,) = payable(_ping).call{value: msg.value}("");
-        require(success,'Ping pong failed');
+        require(success,"Ping pong failed");
         _currentCall=0;
     }
 }

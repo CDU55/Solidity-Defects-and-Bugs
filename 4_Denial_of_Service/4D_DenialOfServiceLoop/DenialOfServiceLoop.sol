@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 //This contract contains multiple transfers performed during a loop. 
 //If the transfer fails due to an out-of-gas exception for any of the iterations, the method cannot execute since it will always stop at the same point in the loop.
 contract DenialOfServiceLoop {

@@ -1,29 +1,29 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //This contract contains a method that transfers Ether and it can be publically accessed.
 contract UnprotectedEtherTransfer {
-    mapping(address => uint) private employees;
+    
+    mapping(address => uint) private _employees;
+    address private _owner;
 
-    address private owner;
-
-      modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner of the contract can access this");
+    modifier onlyOwner() {
+        require(msg.sender == _owner, "Only the owner of the contract can access this");
         _;
     }
 
-      constructor()
+    constructor()
     {
-        owner=msg.sender;
+        _owner=msg.sender;
     }
 
     function sendSalary(address employeeAddress) payable external onlyOwner{
-        employees[employeeAddress]=msg.value;
+        _employees[employeeAddress]=msg.value;
     }
 
     function getSalary() external{
-        employees[msg.sender]=0;
-        payable(msg.sender).transfer(employees[msg.sender]);
+        _employees[msg.sender]=0;
+        payable(msg.sender).transfer(_employees[msg.sender]);
     }
 
     function cancelContract() external onlyOwner {

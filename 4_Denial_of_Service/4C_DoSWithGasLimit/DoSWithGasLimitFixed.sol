@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+//Fix: Send the Ether in slices.
+pragma solidity 0.8.17;
 contract DenialOfServiceGasLimit {
     uint public benefactorsCount;
-    mapping(uint=>address payable) private benefactors;
-    mapping (address=>bool) private rewardCollected;
+    mapping(uint=>address payable) private _benefactors;
     address private owner;
-    uint private lastBenefactorIndex;
-    uint private benefactorShare;
+    uint private _lastBenefactorIndex;
+    uint private _benefactorShare;
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner of the contract can access this");
@@ -25,27 +25,27 @@ contract DenialOfServiceGasLimit {
 
     function registerBenefactor(address payable benefactor) external{
         benefactorsCount=benefactorsCount+1;
-        benefactors[benefactorsCount]=benefactor;
+        _benefactors[benefactorsCount]=benefactor;
     }
 
     function distributeToBenefactors(uint currentSliceCount) external onlyOwner {
         require(benefactorsCount>0);
-        require(lastBenefactorIndex+currentSliceCount<benefactorsCount);
-        if(benefactorShare==0)
+        require(_lastBenefactorIndex+currentSliceCount<benefactorsCount);
+        if(_benefactorShare==0)
         {
-            benefactorShare=address(this).balance/benefactorsCount;
+            _benefactorShare=address(this).balance/benefactorsCount;
         }
-        for(uint index=lastBenefactorIndex;index<lastBenefactorIndex+currentSliceCount;index++)
+        for(uint index=_lastBenefactorIndex;index<_lastBenefactorIndex+currentSliceCount;index++)
         {
-            bool success=benefactors[index].send(benefactorShare);
+            bool success=_benefactors[index].send(_benefactorShare);
         }
-        lastBenefactorIndex=lastBenefactorIndex+currentSliceCount;
+        _lastBenefactorIndex=_lastBenefactorIndex+currentSliceCount;
     }
 
     function reset() external onlyOwner{
-        require(lastBenefactorIndex==benefactorsCount,'Not all benefactors received their share');
-        lastBenefactorIndex=0;
+        require(_lastBenefactorIndex==benefactorsCount,"Not all benefactors received their share");
+        _lastBenefactorIndex=0;
         benefactorsCount=0;
-        benefactorShare=0;
+        _benefactorShare=0;
     }
 }

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 contract BlockhashDependency {
     uint private contendersCount;
@@ -24,13 +24,13 @@ contract BlockhashDependency {
     }
 
     function register(address contender) payable external{
-        require(msg.value>=1 ether && msg.value<2 ether,'Invalid entrance tax');
+        require(msg.value>=1 ether && msg.value<2 ether,"Invalid entrance tax");
         contenders[contendersCount]=contender;
         contendersCount=contendersCount+1;
     }
 
     function chooseWinner() external onlyOwner {
-        require(contendersCount>10,'Not enough contenders registered');
+        require(contendersCount>10,"Not enough contenders registered");
         uint winnerIndex=(uint(blockhash(block.number))+salt) % contendersCount;
         contendersCount=0;
         payable(contenders[winnerIndex]).transfer(address(this).balance - 1 ether);

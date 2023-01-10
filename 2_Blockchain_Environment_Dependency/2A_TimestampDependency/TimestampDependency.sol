@@ -1,33 +1,36 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
+
+//This contract rewards the users that call the "play" method during a certain window of time.
+//However, it relies on block.timestamp, which can be influenced by miners.
 contract TimestampDependency  {
-    address private owner;
-    uint private gameStartTime;
-    uint private gameEndTime;
+    address private _owner;
+    uint private _gameStartTime;
+    uint private _gameEndTime;
     uint public fee;
 
     event GameStarted(uint timestamp);
 
     modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner of the contract can access this");
+        require(msg.sender == _owner, "Only the owner of the contract can access this");
         _;
     }
 
     constructor(uint _fee)
     {
-        owner=msg.sender;
+        _owner=msg.sender;
         fee=_fee;
     }
 
     function startGame() external onlyOwner{
-        gameStartTime=block.timestamp;
-        gameEndTime=gameStartTime + 15 seconds;
+        _gameStartTime=block.timestamp;
+        _gameEndTime=_gameStartTime + 15 seconds;
         emit GameStarted(block.timestamp);
     }
 
     function play() external payable returns(bool){
-        require(msg.value>=fee,'You must pay the fee required to play');
-        if(block.timestamp>=gameStartTime && block.timestamp<=gameEndTime)
+        require(msg.value>=fee,"You must pay the fee required to play");
+        if(block.timestamp>=_gameStartTime && block.timestamp<=_gameEndTime)
         {
             payable(msg.sender).transfer(10*fee);
             return true;

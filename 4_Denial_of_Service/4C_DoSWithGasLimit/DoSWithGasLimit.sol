@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
+//Since there is a "send" instruction inside a for loop, there is a high chance that the "distributeBenefactors" method will not receive enough gas to send all Ether to benefactors.
 contract DenialOfServiceGasLimit {
     uint public benefactorsCount;
-    mapping(uint=>address payable) private benefactors;
-    mapping (address=>bool) private rewardCollected;
-    address private owner;
+    mapping(uint=>address payable) private _benefactors;
+    address private _owner;
 
       modifier onlyOwner() {
-        require(msg.sender == owner, "Only the owner of the contract can access this");
+        require(msg.sender == _owner, "Only the owner of the contract can access this");
         _;
     }
 
       constructor()
     {
-        owner=msg.sender;
+        _owner=msg.sender;
         benefactorsCount=0;
     }
 
@@ -23,7 +23,7 @@ contract DenialOfServiceGasLimit {
 
     function registerBenefactor(address payable benefactor) external{
         benefactorsCount=benefactorsCount+1;
-        benefactors[benefactorsCount]=benefactor;
+        _benefactors[benefactorsCount]=benefactor;
     }
 
     function distributeToBenefactors() external onlyOwner {
@@ -31,7 +31,7 @@ contract DenialOfServiceGasLimit {
         uint ammountPerBenefactor=address(this).balance/benefactorsCount;
         for(uint index=1;index<=benefactorsCount;index++)
         {
-            bool success=benefactors[index].send(ammountPerBenefactor);
+            bool success=_benefactors[index].send(ammountPerBenefactor);
         }
     }
 }

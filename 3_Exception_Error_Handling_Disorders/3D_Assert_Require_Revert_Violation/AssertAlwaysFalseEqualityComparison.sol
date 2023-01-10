@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //The method will never return since there is a contradiction in the require statement, a variable cannot be different from the value that was just assigned to it.
 contract AssertAlwaysFalse{

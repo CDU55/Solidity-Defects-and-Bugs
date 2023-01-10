@@ -3,8 +3,9 @@ pragma solidity ^0.6.8;
 
 //This contract does not use the latest compiler version, which can lead to unexpected results like integer overflow.
 contract OutdatedCompilerVersion {
+    
     address private owner;
-    mapping (uint=>Expense) private expenses;
+    mapping (uint=>Expense) private _expenses;
     uint private _expensesCount;
 
     struct Expense{
@@ -24,7 +25,7 @@ contract OutdatedCompilerVersion {
 
     function registerExpense(uint value,uint expenseId) external onlyOwner
     {
-        expenses[_expensesCount]=Expense(value,expenseId);
+        _expenses[_expensesCount]=Expense(value,expenseId);
         _expensesCount++;
     }
 
@@ -33,7 +34,7 @@ contract OutdatedCompilerVersion {
         uint totalExpense;
         for(uint index=0;index<_expensesCount;index++)
         {
-            totalExpense+=expenses[index].Value;
+            totalExpense+=_expenses[index].Value;
         }
         return totalExpense;
     }

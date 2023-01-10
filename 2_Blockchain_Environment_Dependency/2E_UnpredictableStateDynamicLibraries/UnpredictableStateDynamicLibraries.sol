@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 interface LibraryInterface
 {
@@ -26,7 +26,7 @@ contract UnpredictableStateDynamicLibraries{
 
     function loan(uint amount,uint duration) external
     {
-        require(!debters[msg.sender].active,'You are already in debt');
+        require(!debters[msg.sender].active,"You are already in debt");
         uint startLoan=block.timestamp;
         uint endLoan=startLoan+duration;
         uint interestRate=_library.getInterestRate(amount, startLoan, endLoan);

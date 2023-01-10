@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //This contract contains a "DAO-like" reentrancy vulnerability
 contract ReentrancyDAO {
-    mapping(address => uint) private balance;
+    mapping(address => uint) private _balance;
 
     function deposit() external payable {
-        balance[msg.sender] = msg.value;
+        _balance[msg.sender] = msg.value;
     }
 
      function withdraw() external {
-        require(balance[msg.sender]!=0,'No balance found');
-        uint toSend=balance[msg.sender];
+        require(_balance[msg.sender]!=0,"No balance found");
+        uint toSend=_balance[msg.sender];
         payable(msg.sender).call{value: toSend}("");
-        balance[msg.sender]=0;
+        _balance[msg.sender]=0;
     }
 }

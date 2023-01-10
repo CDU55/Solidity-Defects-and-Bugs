@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.17;
 
 //This contract contains a contradiction in the "require" condition, unsigned integers cannot hold values below 0
 contract AssertAlwaysFalse{
