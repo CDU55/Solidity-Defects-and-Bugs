@@ -40,30 +40,37 @@ This repository contains a smart contract test suite which targets the defects d
 - Unauthorized Ether withdrawal
 - Signature based vulnerabilities
 7. **Arithmetic Bugs**
-- Integer over- or underflow
+- <s>Integer over- or underflow</s>
 - Integer division
 - Integer bugs or arithmetic issues
 8. **Bad Coding and Language Specifics**
 - Type cast
 - Coding error
-- Bad coding pattern
+- <s>Bad coding pattern</s>
 - Deprecated source language features
 - Write to arbitrary storage location
 - Use of assembly
 - Incorrect inheritance order
 - Variable shadowing
-- Misleading source code
-- Missing logic, logical errors or dead code
+- <s>Misleading source code</s>
+- <s>Missing logic</s> , <s>logical errors</s> or dead code
 - Insecure contract upgrading
-- Inadequate or incorrect logging or documentation
+- Inadequate or incorrect logging or <s>documentation</s>
 9. **Environment Configuration Issues**
 - Short address
 - Outdated compiler version
 - Floating or no pragma
 - Token API violation
-- Ethereum update incompatibility
-- Configuration error
+- <s>Ethereum update incompatibility</s>
+- <s>Configuration error </s>
 10. **Eliminated/Deprecated Vulnerabilities**
 - Callstack depth limit
 - Uninitialized storage pointer
 - Erroneous constructor name
+11. **Miscellaneous**
+- Block variable dependency
+- Function Order
+- Quotes
+- IERC20 Indexed
+- Reason String
+- Uninitialized State
