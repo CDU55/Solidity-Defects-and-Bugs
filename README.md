@@ -45,16 +45,16 @@ This repository contains a smart contract test suite which targets the defects d
 - Integer bugs or arithmetic issues
 8. **Bad Coding and Language Specifics**
 - Type cast
-- Coding error
+- <s>Coding error</s>
 - <s>Bad coding pattern</s>
 - Deprecated source language features
-- Write to arbitrary storage location
+- <s>Write to arbitrary storage location</s>
 - Use of assembly
-- Incorrect inheritance order
+- <s>Incorrect inheritance order</s>
 - Variable shadowing
 - <s>Misleading source code</s>
 - <s>Missing logic</s> , <s>logical errors</s> or dead code
-- Insecure contract upgrading
+- <s>Insecure contract upgrading</s>
 - Inadequate or incorrect logging or <s>documentation</s>
 9. **Environment Configuration Issues**
 - Short address
@@ -65,7 +65,7 @@ This repository contains a smart contract test suite which targets the defects d
 - <s>Configuration error </s>
 10. **Eliminated/Deprecated Vulnerabilities**
 - Callstack depth limit
-- Uninitialized storage pointer
+- <s>Uninitialized storage pointer</s>
 - Erroneous constructor name
 11. **Miscellaneous**
 - Block variable dependency
