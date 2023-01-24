@@ -5,7 +5,7 @@ contract AssertAlwaysFalse{
     
     function notGonnaExecute(uint parameter) external pure returns(uint)
     {
-        require(parameter<0); // this require always fails because paramenter is uint
+        require(parameter<=0); // this condition can be true, so no failure
         return parameter;
     }
 }
