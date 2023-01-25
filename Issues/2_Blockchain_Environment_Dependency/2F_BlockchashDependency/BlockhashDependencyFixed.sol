@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
-//Fix: A random value is obtained via an oracle without using block.difficulty
+
+//Fix: A random value is obtained via an oracle without using blockhash
 // import "https://github.com/provable-things/ethereum-api/blob/master/provableAPI.sol";
 
 // contract BlockInfoDependencyFixed is usingProvable{
-contract BlockVariableDependencyFixed {
- uint public _contendersCount;
+contract BlockhashDependency {
+   uint public _contendersCount;
   mapping(uint=>address) public _contenders;
   address private _owner;
   uint public randVal;
