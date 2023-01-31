@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-// Fix: Use "send" instead of "call" to prevent reentrancy. 
-// The imposed gas limit of the instruction will not allow a reentrancy attack.
-contract ReentrancyDAOFixedSend {
+// The use of "send" (which has a 2300 gas limit) instead of "call" 
+// prevents the reentrancy attack.
+// However, the ChecksEffectsInteractions pattern is violated
+// because the state is modified (effect) after transfer (interaction)
+contract ChecksEffectsInteractionsSend {
     mapping(address => uint) private balance;
 
     function deposit() external payable {
