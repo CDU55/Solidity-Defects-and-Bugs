@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-//This contract contains a "DAO-like" reentrancy vulnerability
-contract ReentrancyDAO {
+contract ReentrancySimple {
     mapping(address => uint) private balance;
 
     function deposit() external payable {

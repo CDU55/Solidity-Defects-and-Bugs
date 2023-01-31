@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-//Fix: set the balance of the current use equal to 0 before the transfer
-contract ReentrancyDAOFixed {
+contract ReentrancySimpleFixed {
     mapping(address => uint) private balance;
 
     function deposit() external payable {
