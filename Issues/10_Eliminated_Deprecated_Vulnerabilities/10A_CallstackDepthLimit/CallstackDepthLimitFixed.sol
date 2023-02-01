@@ -2,41 +2,40 @@
 pragma solidity 0.8.17;
 
 //Fix: Check the number of current calls.
-contract Ping{
+contract Ping {
     address private _pong;
-    uint private _callLimit;
-    uint private _currentCall;
-    constructor(address pong,uint callLimit)
-    {
-        _pong=pong;
-        _callLimit=callLimit;
+    uint256 private _callLimit;
+    uint256 private _currentCall;
+
+    constructor(address pong, uint256 callLimit) {
+        _pong = pong;
+        _callLimit = callLimit;
     }
 
     receive() external payable {
-        _currentCall+=1;
-        require(_currentCall<=_callLimit,"Call limit reached");
-        (bool success,) = payable(_pong).call{value: msg.value}("");
-        require(success,"Ping pong failed");
-        _currentCall=0;
+        _currentCall += 1;
+        require(_currentCall <= _callLimit, "Call limit reached");
+        (bool success, ) = payable(_pong).call{value: msg.value}("");
+        require(success, "Ping pong failed");
+        _currentCall = 0;
     }
 }
 
-contract Pong{
+contract Pong {
     address private _ping;
-    uint private _callLimit;
-    uint private _currentCall;
+    uint256 private _callLimit;
+    uint256 private _currentCall;
 
-    constructor(address ping,uint callLimit)
-    {
-        _ping=ping;
-        _callLimit=callLimit;
+    constructor(address ping, uint256 callLimit) {
+        _ping = ping;
+        _callLimit = callLimit;
     }
 
     receive() external payable {
-        _currentCall+=1;
-        require(_currentCall<=_callLimit,"Call limit reached");
-        (bool success,) = payable(_ping).call{value: msg.value}("");
-        require(success,"Ping pong failed");
-        _currentCall=0;
+        _currentCall += 1;
+        require(_currentCall <= _callLimit, "Call limit reached");
+        (bool success, ) = payable(_ping).call{value: msg.value}("");
+        require(success, "Ping pong failed");
+        _currentCall = 0;
     }
 }
