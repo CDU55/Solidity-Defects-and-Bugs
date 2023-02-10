@@ -5,18 +5,19 @@ pragma solidity 0.8.17;
 //However, the encrypter contract can be any contract provided by the user, including malicious ones.
 contract CallToUnknown {
     mapping(address => bytes) public messages;
-    mapping(address => address) private _encryptionProviders;
+    mapping(address => address) private encryptionProviders;
 
     function encryptMessage(string memory message, address encryptionProvider)
         external
         returns (bytes memory)
     {
+        require(encryptionProvider != address(0));
         (bool success, bytes memory encryptedText) = encryptionProvider.call(
             abi.encodeWithSignature("encrypt(string)", message)
         );
         require(success, "Call to external contract failed");
         messages[msg.sender] = encryptedText;
-        _encryptionProviders[msg.sender] = encryptionProvider;
+        encryptionProviders[msg.sender] = encryptionProvider;
         return encryptedText;
     }
 
@@ -24,7 +25,8 @@ contract CallToUnknown {
         external
         returns (bytes memory)
     {
-        (bool success, bytes memory decryptedText) = _encryptionProviders[
+        require(encryptionProviders[msg.sender] != address(0));
+        (bool success, bytes memory decryptedText) = encryptionProviders[
             msg.sender
         ].call(abi.encodeWithSignature("decrypt(string)", message));
         require(success, "Call to external contract failed");
