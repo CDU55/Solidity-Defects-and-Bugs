@@ -14,6 +14,6 @@ contract CallReturnValueNotCheckedHidden {
         if (!success) {
             revert("Withdraw failed");
         }
-        success = true; // the return value of send is lost
+        success = true;
     }
 }

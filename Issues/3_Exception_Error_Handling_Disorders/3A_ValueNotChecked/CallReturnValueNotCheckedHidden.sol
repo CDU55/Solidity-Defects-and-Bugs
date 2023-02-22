@@ -11,6 +11,6 @@ contract CallReturnValueNotCheckedHidden {
     function withdraw() public {
         uint amount = balanceOf[msg.sender];
         (bool success,)  = payable(msg.sender).call{value: amount}("");
-        success = true; // the return value of send is lost
+        success = true; // the return value of call is lost
     }
 }
