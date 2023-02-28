@@ -21,6 +21,6 @@ contract UnexpectedThrowOrRevert {
         require(bids[msg.sender] > 0);
         bids[msg.sender] = 0;
         (bool succ,) = payable(msg.sender).call{value : bids[msg.sender]}("");
-        require(succ);
+        assert(succ);
     }
 }
