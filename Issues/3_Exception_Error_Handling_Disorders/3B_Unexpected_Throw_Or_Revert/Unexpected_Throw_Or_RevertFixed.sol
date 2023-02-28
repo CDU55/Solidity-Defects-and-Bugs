@@ -8,7 +8,7 @@ contract UnexpectedThrowOrRevertFixed {
 
     mapping(address => uint256) owedFormerHighestBidders;
 
-    function Bid() external payable {
+    function bid() external payable {
         if (msg.value > _highestBid) {
             owedFormerHighestBidders[_highestBidder] += _highestBid;
             _highestBidder = msg.sender;
