@@ -19,6 +19,7 @@ contract UnexpectedThrowOrRevert {
 
     function withdraw() external {
         require(bids[msg.sender] > 0);
+        require(msg.sender != maxBidder);
         bids[msg.sender] = 0;
         (bool succ,) = payable(msg.sender).call{value : bids[msg.sender]}("");
         if (!succ) revert();

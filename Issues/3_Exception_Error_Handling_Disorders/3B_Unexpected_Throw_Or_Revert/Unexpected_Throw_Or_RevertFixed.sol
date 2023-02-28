@@ -14,11 +14,11 @@ contract UnexpectedThrowOrRevertFixed {
             _highestBidder = msg.sender;
             _highestBid = msg.value;
         } else {
-            revert("The big was lower than the current highest bid");
+            revert("this bid is lower than the current highest bid");
         }
     }
 
-    function Cashback() external {
+    function cashback() external {
         require(
             owedFormerHighestBidders[msg.sender] > 0,
             "You have nothing to collect"
