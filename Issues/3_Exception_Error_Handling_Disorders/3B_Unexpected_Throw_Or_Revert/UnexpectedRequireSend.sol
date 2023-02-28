@@ -28,7 +28,7 @@ contract UnexpectedThrowOrRevert {
 
     function close() external {
         require(owner == msg.sender); // onlyOwner
-        for (uint i = 0; i < len; i++) {
+        for (uint i = 0; i < len; i++) { // arbitrary len is bad anyway
             // a single failure will block all funds 
             require(payable(bidders[i]).send(bids[i]));
         }
