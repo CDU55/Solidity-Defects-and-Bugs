@@ -13,7 +13,7 @@ contract EtherLostSimpleFixed {
     function forward(address recipient) external payable {
         require(msg.value > 0);
         require(recipient != address(0));
-        require(registered[msg.sender]);
+        require(registered[recipient]);
         emit Forwarded(msg.sender, recipient);
         payable(recipient).transfer(msg.value);
     }
