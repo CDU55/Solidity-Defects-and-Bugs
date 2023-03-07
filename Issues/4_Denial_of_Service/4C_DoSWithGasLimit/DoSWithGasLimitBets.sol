@@ -46,7 +46,7 @@ contract DenialOfServiceGasLimitBets {
 
     function close(uint score) external onlyOwner {
         require(state == Status.OPEN);
-        require(amount > 0);
+        require(address(this).balance > 0);
         state = Status.FINISHED;
         uint winners = 0;
         // counting the winners requires a loop
