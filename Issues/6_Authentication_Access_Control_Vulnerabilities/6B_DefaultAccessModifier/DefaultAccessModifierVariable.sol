@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-//No access modifier is specified for the state variables. The default modifier is public, unlike other programming languages where it is private or internal.
-//This issue could cause make information that is supposed to be private readable from outside of the contract.
+// The default modifier is `public`, unlike in common programming languages.
+// So, information that is supposed to be private becomes modifiable from outside the contract (e.g., inherited contracts)
 contract DefaultAccessModifierVariable {
     address owner;
     bool prizeClaimed;

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-//Fix: Use the intended access modifier for each of the state variables.
+// Fix: Use explicit access modifiers for each of the state variables.
 contract DefaultAccessModifierVariableFixed {
     address private _owner;
     bool public prizeClaimed;
