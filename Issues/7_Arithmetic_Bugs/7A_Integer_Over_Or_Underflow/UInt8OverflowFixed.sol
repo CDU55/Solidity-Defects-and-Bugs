@@ -2,16 +2,15 @@
 pragma solidity ^0.8.17.0;
 
 contract Overflow {
-    uint8 public value;
+    uint8 public price;
+    address private owner;
 
-    constructor (uint8 _value) {
-        value = _value;
+    constructor (uint8 initialPrice) {
+        price = initialPrice;
+        owner = msg.sender;
     }
 
-    function increment() external {
-        require(value + 1 < type(uint8).max, "overflow");
-        unchecked {
-            value++;            
-        }
+    function updatePrice(uint8 newPrice) external {
+        price = newPrice;
     }
 }
