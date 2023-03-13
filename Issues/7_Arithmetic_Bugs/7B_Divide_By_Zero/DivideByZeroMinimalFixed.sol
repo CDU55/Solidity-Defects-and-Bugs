@@ -8,7 +8,6 @@ contract DivideByZeroMinimalFixed {
         pure
         returns (uint256)
     {
-        require(divisor > 0, "Division by zero attempt");
-        return number / divisor;
+        return number / divisor + 1;
     }
 }
