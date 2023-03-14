@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-//This contract performs a division where the divisor is always zero.
+//Fix: number2+1 cannot be zero.
 contract DivideByZeroMinimal {
     function divide(uint256 number1, uint256 number2)
         public

@@ -2,10 +2,10 @@
 pragma solidity 0.8.17;
 
 //This contract contains a divison operation where the divisor is not zero-checked.
-//If there are no registered benefactors, the method will fail.
+//If there are no registered recipients, the method will fail.
 contract PossibleDivisionByZero {
-    uint256 public benefactorsCount;
-    mapping(uint256 => address payable) private _benefactors;
+    uint256 public recipientsCount;
+    mapping(uint256 => address payable) private _recipients;
 
     address owner;
 
@@ -19,20 +19,20 @@ contract PossibleDivisionByZero {
 
     constructor() {
         owner = msg.sender;
-        benefactorsCount = 0;
+        recipientsCount = 0;
     }
 
     receive() external payable {}
 
-    function registerBenefactor(address payable benefactor) external {
-        benefactorsCount = benefactorsCount + 1;
-        _benefactors[benefactorsCount] = benefactor;
+    function registerRecipient(address payable recipient) external {
+        recipientsCount = recipientsCount + 1;
+        _recipients[recipientsCount] = recipient;
     }
 
-    function distributeToBenefactors() external onlyOwner {
-        uint256 ammountPerBenefactor = address(this).balance / benefactorsCount;
-        for (uint256 index = 1; index <= benefactorsCount; index++) {
-            _benefactors[index].transfer(ammountPerBenefactor);
+    function distributeTorecipients() external onlyOwner {
+        uint256 share = address(this).balance / recipientsCount;
+        for (uint256 index = 1; index <= recipientsCount; index++) {
+            _recipients[index].transfer(share);
         }
     }
 }
