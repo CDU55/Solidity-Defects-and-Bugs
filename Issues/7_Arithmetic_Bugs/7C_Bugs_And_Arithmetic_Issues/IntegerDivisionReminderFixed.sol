@@ -3,19 +3,29 @@ pragma solidity 0.8.17;
 
 //Fix: refund the remaining Ether.
 contract IntegerDivisionReminderFixed {
-    function split(address[] calldata benefactors) external payable {
-        require(benefactors.length > 0, "Please provide a benefactors list");
-        uint256 amountPerBenefactor = msg.value / benefactors.length;
-        uint256 remainingAmount = msg.value % benefactors.length;
+    mapping (address => uint) shares;
+    mapping (address => uint) leftovers;
+
+    function split(address[] calldata recipients) external payable {
+        require(recipients.length > 0, "Please provide a recipients list");
+        uint256 share = msg.value / recipients.length;
+        leftovers[msg.sender] = msg.value % recipients.length;
         require(
-            amountPerBenefactor > 0,
-            "The provided amount must be greater than the benefactors count"
+            share > 0,
+            "The provided amount must be greater than the recipients count"
         );
-        for (uint256 index = 0; index < benefactors.length; index++) {
-            payable(benefactors[index]).transfer(amountPerBenefactor);
+        for (uint256 i = 0; i < recipients.length; i++) {
+            shares[recipients[i]] = share;
         }
-        if (remainingAmount > 0) {
-            payable(msg.sender).transfer(remainingAmount);
-        }
+    }
+
+    function withdraw() external {
+        require(shares[msg.sender] > 0);
+        payable(msg.sender).transfer(shares[msg.sender]);
+    }
+
+    function withdrawRemaining() external {
+        require(leftovers[msg.sender] > 0);
+        payable(msg.sender).transfer(leftovers[msg.sender]);
     }
 }
