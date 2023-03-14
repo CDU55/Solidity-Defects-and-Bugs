@@ -9,7 +9,7 @@ contract ShadowingParameterVariableFixed {
     {
         require(
             msg.value > 0,
-            "Please also send the currency that is mean to be split"
+            "Please also send the currency that is meant to be split"
         );
         require(
             sendTo.length > 0,
