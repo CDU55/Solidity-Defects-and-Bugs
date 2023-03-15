@@ -8,7 +8,7 @@ contract StringQuotes {
         pure
         returns (string memory)
     {
-        return string(abi.encodePacked("Hello", " ", name, "!"));
+        return string(abi.encodePacked('Hello', ' ', name, '!'));
         //return string(string.concat(string.concat('Hello ', bytes(name)) ,'!'));
     }
 }
