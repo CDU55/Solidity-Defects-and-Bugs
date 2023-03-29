@@ -2,7 +2,7 @@
 pragma solidity 0.8.17;
 
 //Fix: The owener of the contract is in charge of maintaining a list of accepted workers. Only the workers from that list can be used.
-contract VulenerableDelegeateCALLFixed {
+contract VulnerableDelegeateCALLFixed {
     mapping(address => int256) private acceptedWorkers;
 
     address private owner;
