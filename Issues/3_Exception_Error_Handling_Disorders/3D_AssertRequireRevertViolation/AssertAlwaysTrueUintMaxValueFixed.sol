@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-// Tautology in require: an uint will always be less or equal than uint.max
+// No tautology in require: an uint can be less than uint.max
 contract AssertAlwaysTrue {
     uint256 public maxUintValue = type(uint256).max;
 
@@ -10,7 +10,7 @@ contract AssertAlwaysTrue {
         view
         returns (uint256)
     {
-        require(parameter <= maxUintValue);
+        require(parameter < maxUintValue);
         return parameter;
     }
 }
