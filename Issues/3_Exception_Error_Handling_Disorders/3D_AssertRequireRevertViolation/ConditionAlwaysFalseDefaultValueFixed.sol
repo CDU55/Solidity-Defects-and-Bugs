@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-//Fix: The propser comparison operator is used
-contract AssertAlwaysFalse {
+//Fix: The proper comparison operator is used
+contract ConditionAlwaysFalse {
     uint256 private _limit;
     uint256 private _currentCount;
     mapping(uint256 => address) private _participants;

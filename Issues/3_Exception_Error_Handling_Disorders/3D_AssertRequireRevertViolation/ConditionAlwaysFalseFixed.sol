@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-contract AssertAlwaysFalse {
+contract ConditionAlwaysFalse {
     function notGonnaExecute(uint256 parameter)
         external
         pure
